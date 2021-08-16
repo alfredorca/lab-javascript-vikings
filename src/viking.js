@@ -66,22 +66,61 @@ class War {
   }
 
   vikingAttack() {
-    let randomSaxon = Math.floor(Math.random() * this.saxonArmy.length);
-    let randomViking = Math.floor(Math.random() * this.vikingArmy.length);
-    let randomS = this.saxonArmy[randomSaxon];
-   return randomS
+    let randomSaxonIndex = Math.floor(Math.random() * this.saxonArmy.length);
+    let randomVikingIndex = Math.floor(Math.random() * this.vikingArmy.length);
+    let randomSaxon = this.saxonArmy[randomSaxonIndex];
+    let randomViking = this.vikingArmy[randomVikingIndex];
+    let battle = randomSaxon.receiveDamage(randomViking.strength)
+    if (randomSaxon.health <= 0) {
+      this.saxonArmy.splice(randomSaxonIndex, 1)
+    }
+   return battle 
+  }
+
+  saxonAttack() {
+    let randomSaxonIndex = Math.floor(Math.random() * this.saxonArmy.length);
+    let randomVikingIndex = Math.floor(Math.random() * this.vikingArmy.length);
+    let randomSaxon = this.saxonArmy[randomSaxonIndex];
+    let randomViking = this.vikingArmy[randomVikingIndex];
+    let battle = randomViking.receiveDamage(randomSaxon.strength);
+    if (randomViking.health <= 0) {
+      this.vikingArmy.splice(randomVikingIndex, 1)
+    }
+  }
+
+  showStatus() {
+    if (this.vikingArmy.length > this.saxonArmy.length) {
+      return `“Honor and daring, valor, strength and agility, all these were qualities the Vikings prized and upheld." The vikings have won the war.`;
+    } else if (this.vikingArmy.length < this.saxonArmy.length) {
+      return `“A hungry wolf is bound to wage a hard battle.” The saxons have won the war.`;
+    } else if (this.vikingArmy.length === this.saxonArmy.length) {
+      return `“Numbers cannot skill withstand.” The vikings and saxons are still in the heat of the battle.`;
+    }
   }
 
 }
+let gorm = new Viking('Gorm', 550, 225);
+let halfdan = new Viking('Halfdan', 400, 300);
+let torsten = new Viking('Torsten', 800, 150);
+let gudrun = new Viking('Gudrun', 600, 240);
+let birger = new Saxon(600, 420)
+let bjorn = new Saxon(400, 240)
+let bodil = new Saxon(750, 320)
+let sigrid = new Saxon(580, 210)
 
 let war = new War();
-war.addSaxon('alfredo')
-war.addSaxon('Arturo')
-war.addSaxon('matias')
-war.addSaxon('Jorge')
- console.log(war.vikingAttack())
+war.addSaxon(birger);
+war.addSaxon(bjorn);
+war.addSaxon(bodil)
+war.addSaxon(sigrid)
+war.addViking(gorm);
+war.addViking(halfdan);
+war.addViking(torsten)
+war.addViking(gudrun)
+console.log(war.vikingAttack())
+war.saxonAttack();
+console.log(war.vikingArmy);
 
-let newarray = new War()
 
 
 // The following is required to make unit tests work.
